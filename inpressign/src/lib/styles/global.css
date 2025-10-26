@@ -1,0 +1,33 @@
+:root {
+  --color-bg: rgba(255, 255, 255, 0.8);
+  --color-accent: #3cb371;
+  --color-dark: #2e2e2e;
+  --radius: 12px;
+  --shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  --blur: 20px;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: 'Inter', 'Roboto', sans-serif;
+  background: linear-gradient(135deg, #f6f9f7, #e8f5ee);
+  color: var(--color-dark);
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  backdrop-filter: blur(var(--blur));
+}
+
+main {
+  flex: 1;
+  padding: 2rem;
+  border-radius: var(--radius);
+  background: var(--color-bg);
+  box-shadow: var(--shadow);
+  margin: 1rem;
+}
