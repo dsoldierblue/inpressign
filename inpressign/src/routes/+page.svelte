@@ -1,23 +1,16 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import { invoke } from '@tauri-apps/api/core';
-  import Header from '../lib/components/Header.svelte';
-  import NavTabs from '../lib/components/NavTabs.svelte';
-  import TabProyectos from '../lib/components/TabProyectos.svelte';
-  import TabNotas from '../lib/components/TabNotas.svelte';
-  import TabCronologia from '../lib/components/TabCronologia.svelte';
-  import TabAnalisis from '../lib/components/TabAnalisis.svelte';
+  import Header from '$lib/components/Header.svelte';
+  // @ts-ignore: TypeScript sometimes resolves Svelte components to generated .d.svelte.ts files; ignore this resolution error
+  import TabWorkflow from '$lib/components/TabWorkflow.svelte';
+  import Toast from '$lib/components/Toast.svelte';
 
-  let currentTab: string = 'proyectos';
   let message: string = '';
-  let currentProjectId: string = 'default';
+  let currentProjectName: string = '';
 
-  function setTab(tab: string) {
-    currentTab = tab;
-  }
-
-  function onProjectSelected(id: string) {
-    if (id) currentProjectId = id;
+  function onProjectSelected(project: { id?: string; name?: string }) {
+    if (project?.name) currentProjectName = project.name;
   }
 
   onMount(async () => {
@@ -35,17 +28,8 @@
   });
 </script>
 
-<Header />
-<NavTabs {currentTab} on:selectTab={(e: CustomEvent<string>) => setTab(e.detail)} />
-
-{#if currentTab === 'proyectos'}
-  <TabProyectos on:selectProject={(e: CustomEvent<string>) => onProjectSelected(e.detail)} />
-{:else if currentTab === 'notas'}
-  <TabNotas {currentProjectId} />
-{:else if currentTab === 'cronologia'}
-  <TabCronologia />
-{:else if currentTab === 'analisis'}
-  <TabAnalisis />
-{/if}
+  <Header selectedProjectName={currentProjectName} />
+  <Toast />
+  <TabWorkflow on:selectProject={(e: CustomEvent<any>) => onProjectSelected(e.detail)} />
 
 <!-- No local styles in this container to avoid Svelte scoping warnings; keep styles in components or global CSS -->
